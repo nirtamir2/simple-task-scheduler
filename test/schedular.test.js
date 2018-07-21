@@ -17,7 +17,7 @@ describe('schedular', () => {
       expect(fn).toHaveBeenCalledTimes(1)
     })
 
-    test('execute miltiple functions by their time', () => {
+    test('execute multiple functions by their time', () => {
       jest.useFakeTimers()
       const later = jest.fn()
       const secondToMilliseconds = 1000
@@ -71,6 +71,25 @@ describe('schedular', () => {
       expect(() => {
         Schedular.doAt(fn, yesterday)
       }).toThrow()
+    })
+  })
+
+  describe.skip('doEvery', () => {
+    test('execute the function on a given period', () => {
+      jest.useFakeTimers()
+
+      Schedular.doEvery(fn, { seconds: 1 })
+      const period = 1000
+
+      jest.advanceTimersByTime(period - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(1)
+      expect(fn).toHaveBeenCalledTimes(1)
+
+      jest.advanceTimersByTime(period - 1)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(1)
+      expect(fn).toHaveBeenCalledTimes(2)
     })
   })
 })
