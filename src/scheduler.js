@@ -1,9 +1,10 @@
 const { toMilliseconds } = require('./durationConverter')
 const Timer = require('./timer')
 
-function doAfter(fn, time) {
-  Timer.time(fn, toMilliseconds(time))
+function doAfter(fn, period) {
+  Timer.time(fn, toMilliseconds(period))
 }
+
 function doAt(fn, date) {
   if (!(date instanceof Date)) {
     throw new Error('date should be Date object')
