@@ -16,11 +16,15 @@ function doAt(fn, date) {
 }
 
 function doRecurrent(fn, period) {
-  Timer.recurrent(fn, toMilliseconds(period))
+  return Timer.recurrent(fn, toMilliseconds(period))
 }
 
 function stopAll() {
   Timer.stopAll()
 }
 
-module.exports = { doAfter, doAt, doRecurrent, stopAll }
+function cancel(task) {
+  Timer.cancel(task)
+}
+
+module.exports = { doAfter, doAt, doRecurrent, stopAll, cancel }

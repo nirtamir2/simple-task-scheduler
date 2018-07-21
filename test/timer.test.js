@@ -65,4 +65,16 @@ describe('timer', () => {
       expect(fn).toHaveBeenCalledTimes(1)
     })
   })
+  describe('cancel', () => {
+    test('canceled task not executed when its period passed', () => {
+      jest.useFakeTimers()
+
+      const task = Timer.recurrent(fn, { seconds: 1 })
+      Timer.cancel(task)
+      const period = 1000
+
+      jest.advanceTimersByTime(period)
+      expect(fn).toHaveBeenCalledTimes(0)
+    })
+  })
 })

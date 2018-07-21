@@ -111,4 +111,31 @@ describe('schedular', () => {
       expect(fn).toHaveBeenCalledTimes(1)
     })
   })
+  describe.skip('changeSchedule', () => {
+    test('change the schedule', () => {
+      jest.useFakeTimers()
+
+      const task = Schedular.doRecurrent(fn, { seconds: 1 })
+      Schedular.changeSchedule(task, { seconds: 2 })
+      const period = 2000
+
+      jest.advanceTimersByTime(period - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(1)
+      expect(fn).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('cancel', () => {
+    test('canceled task not executed when its period passed', () => {
+      jest.useFakeTimers()
+
+      const task = Schedular.doRecurrent(fn, { seconds: 1 })
+      Schedular.cancel(task)
+      const period = 1000
+
+      jest.advanceTimersByTime(period)
+      expect(fn).toHaveBeenCalledTimes(0)
+    })
+  })
 })
