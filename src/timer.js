@@ -9,19 +9,25 @@ function time(fn, milliseconds) {
 function recurrent(fn, milliseconds) {
   const intervalId = setInterval(fn, milliseconds)
   const taskId = `Task ${++i}`
-  recurrentTimeoutIds[taskId] = intervalId
+  recurrentTimeoutIds[taskId] = { interval: intervalId, fn }
   return taskId
 }
 
 function stopAll() {
-  for (const id of Object.values(recurrentTimeoutIds)) {
-    clearTimeout(id)
+  for (const { interval } of Object.values(recurrentTimeoutIds)) {
+    clearTimeout(interval)
   }
 }
 
 function cancel(taskId) {
-  const timeoutId = recurrentTimeoutIds[taskId]
-  clearTimeout(timeoutId)
+  const { interval } = recurrentTimeoutIds[taskId]
+  clearTimeout(interval)
 }
 
-module.exports = { time, recurrent, stopAll, cancel }
+function reschedule(taskId, milliseconds) {
+  const taskDetails = recurrentTimeoutIds[taskId]
+  clearTimeout(taskDetails.interval)
+  taskDetails.interval = setInterval(taskDetails.fn, milliseconds)
+}
+
+module.exports = { time, recurrent, stopAll, cancel, reschedule }

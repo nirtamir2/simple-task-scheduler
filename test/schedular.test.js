@@ -111,20 +111,6 @@ describe('schedular', () => {
       expect(fn).toHaveBeenCalledTimes(1)
     })
   })
-  describe.skip('changeSchedule', () => {
-    test('change the schedule', () => {
-      jest.useFakeTimers()
-
-      const task = Schedular.doRecurrent(fn, { seconds: 1 })
-      Schedular.changeSchedule(task, { seconds: 2 })
-      const period = 2000
-
-      jest.advanceTimersByTime(period - 1)
-      expect(fn).toHaveBeenCalledTimes(0)
-      jest.advanceTimersByTime(1)
-      expect(fn).toHaveBeenCalledTimes(1)
-    })
-  })
 
   describe('cancel', () => {
     test('canceled task not executed when its period passed', () => {
@@ -136,6 +122,43 @@ describe('schedular', () => {
 
       jest.advanceTimersByTime(period)
       expect(fn).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('reschedule', () => {
+    test('reschedule to longer period', () => {
+      jest.useFakeTimers()
+
+      const task = Schedular.doRecurrent(fn, { seconds: 1 })
+      Schedular.reschedule(task, { seconds: 2 })
+
+      const newPeriod = 2000
+
+      jest.advanceTimersByTime(newPeriod - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(2)
+    })
+
+    test('reschedule to shorter period', () => {
+      jest.useFakeTimers()
+
+      const task = Schedular.doRecurrent(fn, { seconds: 2 })
+
+      Schedular.reschedule(task, { seconds: 1 })
+
+      const newPeriod = 1000
+
+      jest.advanceTimersByTime(newPeriod - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(2)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(3)
     })
   })
 })

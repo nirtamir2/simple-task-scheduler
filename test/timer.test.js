@@ -77,4 +77,39 @@ describe('timer', () => {
       expect(fn).toHaveBeenCalledTimes(0)
     })
   })
+
+  describe('reschedule', () => {
+    test('reschedule to longer period', () => {
+      jest.useFakeTimers()
+
+      const newPeriod = 2000
+      const task = Timer.recurrent(fn, newPeriod / 2)
+      Timer.reschedule(task, newPeriod)
+
+      jest.advanceTimersByTime(newPeriod - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(2)
+    })
+
+    test('reschedule to shorter period', () => {
+      jest.useFakeTimers()
+
+      const newPeriod = 1000
+      const task = Timer.recurrent(fn, 2 * newPeriod)
+
+      Timer.reschedule(task, newPeriod)
+
+      jest.advanceTimersByTime(newPeriod - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(2)
+      jest.advanceTimersByTime(newPeriod)
+      expect(fn).toHaveBeenCalledTimes(3)
+    })
+  })
 })

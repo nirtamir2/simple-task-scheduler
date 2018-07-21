@@ -27,4 +27,8 @@ function cancel(task) {
   Timer.cancel(task)
 }
 
-module.exports = { doAfter, doAt, doRecurrent, stopAll, cancel }
+function reschedule(task, period) {
+  Timer.reschedule(task, toMilliseconds(period))
+}
+
+module.exports = { doAfter, doAt, doRecurrent, stopAll, cancel, reschedule }
