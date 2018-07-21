@@ -112,12 +112,12 @@ describe('schedular', () => {
     })
   })
 
-  describe('cancel', () => {
-    test('canceled task not executed when its period passed', () => {
+  describe('stop', () => {
+    test('stopped task not executed when its period passed', () => {
       jest.useFakeTimers()
 
       const task = Schedular.doRecurrent(fn, { seconds: 1 })
-      Schedular.cancel(task)
+      Schedular.stop(task)
       const period = 1000
 
       jest.advanceTimersByTime(period)

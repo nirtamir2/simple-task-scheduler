@@ -3,7 +3,7 @@
 A scheduler is a component that allows you to schedule tasks that will be
 executed in the future.
 
-**NOTE:** `cancel`, `stopAll` and `reschedule` currently support only recurrent tasks (i.e : tasks created by `doRecurrent` method).
+**NOTE:** `stop`, `stopAll` and `reschedule` currently support only recurrent tasks (i.e : tasks created by `doRecurrent` method).
 
 ## Installation
 
@@ -36,7 +36,7 @@ Scheduler.doAt(fn, new Date())
 
 const recurrentTask = Scheduler.doRecurrent(fn, { days: 14 })
 Scheduler.reschedule(recurrentTask, { days: 21 })
-Scheduler.cancel(recurrentTask)
+Scheduler.stop(recurrentTask)
 
 Scheduler.stopAll()
 ```

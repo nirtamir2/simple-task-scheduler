@@ -24,12 +24,12 @@ function stopAll() {
   Timer.stopAll()
 }
 
-function cancel(task) {
-  Timer.cancel(task)
+function stop(task) {
+  Timer.stop(task)
 }
 
 function reschedule(task, period) {
   Timer.reschedule(task, toMilliseconds(period))
 }
 
-module.exports = { doAfter, doAt, doRecurrent, stopAll, cancel, reschedule }
+module.exports = { doAfter, doAt, doRecurrent, stopAll, stop, reschedule }

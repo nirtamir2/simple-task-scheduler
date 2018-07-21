@@ -19,7 +19,7 @@ function stopAll() {
   }
 }
 
-function cancel(taskId) {
+function stop(taskId) {
   const { interval } = recurrentTimeoutIds[taskId]
   clearTimeout(interval)
 }
@@ -30,4 +30,4 @@ function reschedule(taskId, milliseconds) {
   taskDetails.interval = setInterval(taskDetails.fn, milliseconds)
 }
 
-module.exports = { time, recurrent, stopAll, cancel, reschedule }
+module.exports = { time, recurrent, stopAll, stop, reschedule }
