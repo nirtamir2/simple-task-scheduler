@@ -1,5 +1,5 @@
 {
-  "name": "Scheduler",
+  "name": "simple-task-scheduler",
   "version": "1.0.0",
   "description": "A component that allows you to schedule tasks that will be executed in the future",
   "author": "Nir Tamir <nirtamir2@gmail.com>",
