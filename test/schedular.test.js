@@ -74,11 +74,11 @@ describe('schedular', () => {
     })
   })
 
-  describe.skip('doEvery', () => {
-    test('execute the function on a given period', () => {
+  describe('doRecurrent', () => {
+    test('execute the function 2 on double period', () => {
       jest.useFakeTimers()
 
-      Schedular.doEvery(fn, { seconds: 1 })
+      Schedular.doRecurrent(fn, { seconds: 1 })
       const period = 1000
 
       jest.advanceTimersByTime(period - 1)

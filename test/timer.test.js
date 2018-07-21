@@ -28,4 +28,27 @@ describe('timer', () => {
       expect(fn).toHaveBeenCalledTimes(1)
     })
   })
+
+  describe('recurrent', () => {
+    let fn
+    beforeEach(() => {
+      fn = jest.fn()
+    })
+
+    test('call the function 2 times after 2 periods', () => {
+      jest.useFakeTimers()
+
+      const period = 300
+      Timer.recurrent(fn, period)
+
+      jest.advanceTimersByTime(period - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(1)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(period - 1)
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(1)
+      expect(fn).toHaveBeenCalledTimes(2)
+    })
+  })
 })

@@ -15,4 +15,8 @@ function doAt(fn, date) {
   Timer.time(fn, delay)
 }
 
-module.exports = { doAfter, doAt }
+function doRecurrent(fn, period) {
+  Timer.recurrent(fn, toMilliseconds(period))
+}
+
+module.exports = { doAfter, doAt, doRecurrent }
