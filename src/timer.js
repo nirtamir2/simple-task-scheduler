@@ -1,11 +1,19 @@
-const { setTimeout, setInterval } = require('long-timeout')
+const { setTimeout, setInterval, clearTimeout } = require('long-timeout')
+const recurrentTimeoutIds = []
 
 function time(fn, milliseconds) {
   setTimeout(fn, milliseconds)
 }
 
 function recurrent(fn, milliseconds) {
-  setInterval(fn, milliseconds)
+  const intervalId = setInterval(fn, milliseconds)
+  recurrentTimeoutIds.push(intervalId)
 }
 
-module.exports = { time, recurrent }
+function stopAll() {
+  for (const id of recurrentTimeoutIds) {
+    clearTimeout(id)
+  }
+}
+
+module.exports = { time, recurrent, stopAll }

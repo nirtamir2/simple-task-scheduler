@@ -92,4 +92,23 @@ describe('schedular', () => {
       expect(fn).toHaveBeenCalledTimes(2)
     })
   })
+
+  describe('stopAll', () => {
+    test('stop the function execution', () => {
+      jest.useFakeTimers()
+
+      Schedular.doRecurrent(fn, { seconds: 1 })
+      const period = 1000
+
+      jest.advanceTimersByTime(period - 1)
+      expect(fn).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(1)
+      expect(fn).toHaveBeenCalledTimes(1)
+
+      Schedular.stopAll()
+
+      jest.advanceTimersByTime(period)
+      expect(fn).toHaveBeenCalledTimes(1)
+    })
+  })
 })

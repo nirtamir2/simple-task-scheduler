@@ -19,4 +19,8 @@ function doRecurrent(fn, period) {
   Timer.recurrent(fn, toMilliseconds(period))
 }
 
-module.exports = { doAfter, doAt, doRecurrent }
+function stopAll() {
+  Timer.stopAll()
+}
+
+module.exports = { doAfter, doAt, doRecurrent, stopAll }
