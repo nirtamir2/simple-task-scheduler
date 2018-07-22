@@ -13,6 +13,27 @@ function recurrent(fn, milliseconds) {
   return taskId
 }
 
+function recurrentCron(fn, cronInterval) {
+  const taskId = `Task ${++i}`
+
+  function reschedule() {
+    const recurrentFn = () => {
+      if (cronInterval.hasNext()) {
+        const timeout = cronInterval.next().toDate() - Date.now()
+        recurrentTimeoutIds[taskId].interval = setTimeout(recurrentFn, timeout)
+      }
+      fn()
+    }
+    const timeout = cronInterval.next().toDate() - Date.now()
+    const interval = setTimeout(recurrentFn, timeout)
+    return interval
+  }
+
+  const interval = reschedule()
+  recurrentTimeoutIds[taskId] = { interval, fn }
+  return taskId
+}
+
 function stopAll() {
   for (const { interval } of Object.values(recurrentTimeoutIds)) {
     clearTimeout(interval)
@@ -30,4 +51,11 @@ function reschedule(taskId, milliseconds) {
   taskDetails.interval = setInterval(taskDetails.fn, milliseconds)
 }
 
-module.exports = { time, recurrent, stopAll, stop, reschedule }
+module.exports = {
+  time,
+  recurrent,
+  stopAll,
+  stop,
+  reschedule,
+  recurrentCron
+}

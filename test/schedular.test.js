@@ -93,6 +93,52 @@ describe('schedular', () => {
     })
   })
 
+  describe('doRecurrentCron', () => {
+    jest.useFakeTimers()
+
+    let dateNowSpy
+    beforeEach(() => {
+      dateNowSpy = jest
+        .spyOn(Date, 'now')
+        .mockImplementation(() => new Date(2018, 7, 21, 11, 1, 1, 0))
+    })
+
+    afterEach(() => {
+      dateNowSpy.mockReset()
+      dateNowSpy.mockRestore()
+      jest.clearAllTimers()
+    })
+
+    test('execute the function when the time is in specific second', () => {
+      Schedular.doRecurrentCron(fn, '4 * * * * *')
+      const period = 1000
+
+      jest.advanceTimersByTime(3 * period)
+      expect(fn).toHaveBeenCalledTimes(1)
+    })
+
+    test('create only one pending timer at a time', () => {
+      Schedular.doRecurrentCron(fn, '1 2 * * * *')
+
+      jest.runOnlyPendingTimers()
+      expect(fn).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(1)
+      jest.runOnlyPendingTimers()
+      expect(fn).toHaveBeenCalledTimes(2)
+      jest.advanceTimersByTime(1)
+      jest.runOnlyPendingTimers()
+      expect(fn).toHaveBeenCalledTimes(3)
+    })
+
+    test('execute the function when the time is in minute and second', () => {
+      Schedular.doRecurrentCron(fn, '4 1 * * * *')
+      const period = 1000
+
+      jest.advanceTimersByTime((60 * 3 + 4) * period)
+      expect(fn).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe('stopAll', () => {
     test('stop the function execution', () => {
       jest.useFakeTimers()

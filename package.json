@@ -24,6 +24,7 @@
     "prettier": "^1.13.7"
   },
   "dependencies": {
+    "cron-parser": "^2.5.0",
     "long-timeout": "^0.1.1"
   }
 }
