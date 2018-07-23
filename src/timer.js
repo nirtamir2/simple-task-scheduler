@@ -1,4 +1,4 @@
-const { setTimeout, setInterval, clearTimeout } = require('long-timeout')
+const { setTimeout, setInterval, clearInterval } = require('long-timeout')
 const recurrentTimeoutIds = {}
 let i = 0
 
@@ -36,18 +36,18 @@ function recurrentCron(fn, cronInterval) {
 
 function stopAll() {
   for (const { interval } of Object.values(recurrentTimeoutIds)) {
-    clearTimeout(interval)
+    clearInterval(interval)
   }
 }
 
 function stop(taskId) {
   const { interval } = recurrentTimeoutIds[taskId]
-  clearTimeout(interval)
+  clearInterval(interval)
 }
 
 function reschedule(taskId, milliseconds) {
   const taskDetails = recurrentTimeoutIds[taskId]
-  clearTimeout(taskDetails.interval)
+  clearInterval(taskDetails.interval)
   taskDetails.interval = setInterval(taskDetails.fn, milliseconds)
 }
 
