@@ -1,5 +1,4 @@
 describe('schedular', () => {
-  // const Schedular = require('./../src/scheduler')
   const Schedular = require('./../src/task/TaskCreator')
 
   let fn

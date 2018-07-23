@@ -3,7 +3,7 @@ const { toMilliseconds } = require('./../../durationConverter')
 
 class PeriodTaskRunner {
   run(task) {
-    this.timeout = setTimeout(task.fn, toMilliseconds(task.timing.period))
+    this.timeout = setTimeout(task.fn, toMilliseconds(task.timing))
   }
   stop(task) {
     clearTimeout(this.timeout)

@@ -25,11 +25,11 @@ function stop(taskId) {
 
 function reschedule(taskId, timing) {
   const task = tasks.find(t => t.getId() === taskId)
-  task.reschedule({ period: timing })
+  task.reschedule(timing)
 }
 
 function doAfter(fn, period) {
-  const task = new Task(fn, { period: period })
+  const task = new Task(fn, period)
   task.setTaskRunner(new PeriodTaskRunner())
   task.setId(getNextId())
   tasks.push(task)
@@ -45,7 +45,7 @@ function doAt(fn, date) {
     throw new Error('date should be in the future')
   }
 
-  const task = new Task(fn, { date: date })
+  const task = new Task(fn, date)
   task.setTaskRunner(new CalenderTaskRunner())
   task.setId(getNextId())
   tasks.push(task)
@@ -54,7 +54,7 @@ function doAt(fn, date) {
 }
 
 function doRecurrent(fn, period) {
-  const task = new Task(fn, { period: period })
+  const task = new Task(fn, period)
   task.setTaskRunner(new IntervalTaskRunner())
   task.setId(getNextId())
   tasks.push(task)
@@ -63,7 +63,7 @@ function doRecurrent(fn, period) {
 }
 
 function doRecurrentCron(fn, cron) {
-  const task = new Task(fn, { cron: cron })
+  const task = new Task(fn, cron)
   task.setTaskRunner(new CronTaskRunner())
   task.setId(getNextId())
   tasks.push(task)

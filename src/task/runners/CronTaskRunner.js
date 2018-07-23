@@ -23,7 +23,7 @@ class CronTaskRunner {
 
       self.interval = reschedule()
     }
-    recurrentCron(task.fn, cronParser.parseExpression(task.timing.cron))
+    recurrentCron(task.fn, cronParser.parseExpression(task.timing))
   }
 
   stop(task) {
